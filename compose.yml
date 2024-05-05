@@ -1,0 +1,6 @@
+services:
+  maven:
+    build: .
+    volumes:
+      - .:/app
+    tty: true
