@@ -13,6 +13,8 @@ public class AddClientController implements IController {
         AddClientModel client = (AddClientModel) httpRequest.getBody();
         if (client.getName() == null)
             return badRequest(new InvalidParamException("name"));
+        if (client.getEmail() == null)
+            return badRequest(new InvalidParamException("email"));
         return ok(client);
     }
 }
