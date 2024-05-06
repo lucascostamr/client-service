@@ -34,4 +34,16 @@ public class AddClientControllerTests {
         assertEquals(response.getStatusCode(), 400);
         assertEquals(responseException.getMessage(), fakeException.getMessage());
     }
+
+    @Test
+    void return_400_if_no_email_is_provided() {
+        AddClientController sut = new AddClientController();
+        FakeAddClient fakeAddClient = new FakeAddClient("any_name", null, "any_cnpj", "any_phone");
+        HttpReq fakeRequest = new HttpReq(fakeAddClient);
+        HttpRes response = sut.handle(fakeRequest);
+        InvalidParamException responseException = (InvalidParamException) response.getBody();
+        InvalidParamException fakeException = new InvalidParamException("email");
+        assertEquals(response.getStatusCode(), 400);
+        assertEquals(responseException.getMessage(), fakeException.getMessage());
+    }
 }
