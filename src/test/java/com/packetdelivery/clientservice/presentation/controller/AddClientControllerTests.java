@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.AllArgsConstructor;
 
 import com.packetdelivery.clientservice.presentation.controller.AddClientController;
+import com.packetdelivery.clientservice.presentation.errors.InvalidParamException;
 import com.packetdelivery.clientservice.protocols.HttpRes;
 import com.packetdelivery.clientservice.protocols.HttpReq;
 import com.packetdelivery.clientservice.model.domain.AddClientModel;
@@ -28,6 +29,9 @@ public class AddClientControllerTests {
         FakeAddClient fakeAddClient = new FakeAddClient(null, "any_email", "any_cnpj", "any_phone");
         HttpReq fakeRequest = new HttpReq(fakeAddClient);
         HttpRes response = sut.handle(fakeRequest);
+        InvalidParamException responseException = (InvalidParamException) response.getBody();
+        InvalidParamException fakeException = new InvalidParamException("name");
         assertEquals(response.getStatusCode(), 400);
+        assertEquals(responseException.getMessage(), fakeException.getMessage());
     }
 }
