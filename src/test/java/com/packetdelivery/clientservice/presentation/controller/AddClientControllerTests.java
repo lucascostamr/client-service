@@ -15,15 +15,15 @@ import com.packetdelivery.clientservice.model.domain.AddClientModel;
 public class AddClientControllerTests {
     @Getter
     @AllArgsConstructor
-    class FakeAddClient implements AddClientModel{
+    class FakeAddClient implements AddClientModel {
         private String name;
         private String email;
         private String cnpj;
         private String phone;
     }
-    
+
     @Test
-    void return_400_if_no_name_is_provided(){
+    void return_400_if_no_name_is_provided() {
         AddClientController sut = new AddClientController();
         FakeAddClient fakeAddClient = new FakeAddClient(null, "any_email", "any_cnpj", "any_phone");
         HttpReq fakeRequest = new HttpReq(fakeAddClient);

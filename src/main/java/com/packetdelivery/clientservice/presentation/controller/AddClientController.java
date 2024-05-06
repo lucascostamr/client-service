@@ -6,9 +6,10 @@ import com.packetdelivery.clientservice.protocols.HttpReq;
 import com.packetdelivery.clientservice.protocols.HttpRes;
 
 public class AddClientController implements IController {
-    public HttpRes handle(HttpReq httpRequest){
+    public HttpRes handle(HttpReq httpRequest) {
         AddClientModel client = (AddClientModel) httpRequest.getBody();
-        if(client.getName() == null) return new HttpRes(400, "name");
+        if (client.getName() == null)
+            return new HttpRes(400, "name");
         return new HttpRes(200, client);
     }
 }
