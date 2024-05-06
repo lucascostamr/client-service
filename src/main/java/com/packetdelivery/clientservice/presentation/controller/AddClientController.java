@@ -6,13 +6,13 @@ import com.packetdelivery.clientservice.presentation.errors.InvalidParamExceptio
 import com.packetdelivery.clientservice.model.domain.AddClientModel;
 import com.packetdelivery.clientservice.protocols.HttpReq;
 import com.packetdelivery.clientservice.protocols.HttpRes;
-import com.packetdelivery.clientservice.helpers.HttpHelper;
+import static com.packetdelivery.clientservice.helpers.HttpHelper.*;
 
 public class AddClientController implements IController {
     public HttpRes handle(HttpReq httpRequest) {
         AddClientModel client = (AddClientModel) httpRequest.getBody();
         if (client.getName() == null)
-            return HttpHelper.badRequest(new InvalidParamException("name"));
-        return HttpHelper.ok(client);
+            return badRequest(new InvalidParamException("name"));
+        return ok(client);
     }
 }
