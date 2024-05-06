@@ -1,1 +1,1 @@
-docker exec -te TERM=xterm-256color clientservice mvn test
+docker exec -te TERM=xterm-256color clientservice sh -c  "mvn formatter:format && mvn formatter:validate && mvn test"
