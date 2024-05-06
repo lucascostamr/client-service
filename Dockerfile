@@ -1,9 +1,14 @@
 FROM maven:3.9.6-eclipse-temurin-22-alpine
 WORKDIR /app
 COPY . /app
-RUN apk upgrade && apk add inotify-tools
+RUN \
+    apk upgrade &&\
+    apk add inotify-tools &&\
+    apk add npm &&\
+    apk add git
 CMD [ "sh", "-c","\
-  source ./.inotify/file-event.sh &\
-  mvn spring-boot:run &&\
-  sh\
+    npm ci &&\
+    source ./.inotify/file-event.sh &\
+    mvn spring-boot:run &&\
+    sh\
 "]

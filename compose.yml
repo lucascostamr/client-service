@@ -1,5 +1,6 @@
 services:
-  maven:
+  clientservice:
+    container_name: clientservice 
     build: .
     volumes:
       - .:/app

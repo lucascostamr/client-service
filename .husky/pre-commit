@@ -1,0 +1,2 @@
+docker -t exec -e TERM=xterm-256color clientservice mvn test
+exit 1
