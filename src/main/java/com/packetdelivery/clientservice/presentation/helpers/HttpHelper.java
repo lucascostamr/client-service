@@ -13,4 +13,8 @@ public class HttpHelper {
     public static HttpRes ok(Object body) {
         return new HttpRes(200, body);
     }
+
+    public static HttpRes serverError(Object body) {
+        return new HttpRes(500, body);
+    }
 }

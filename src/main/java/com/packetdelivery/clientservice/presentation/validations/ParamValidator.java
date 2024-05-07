@@ -8,16 +8,12 @@ public class ParamValidator {
     private ParamValidator() {
     }
 
-    public static String validate(Object obj) {
+    public static String validate(Object obj) throws IllegalAccessException {
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field field : fields) {
-            try {
-                field.setAccessible(true);
-                if (field.get(obj) == null) {
-                    return field.getName();
-                }
-            } catch (IllegalAccessException e) {
-                return e.toString();
+            field.setAccessible(true);
+            if (field.get(obj) == null) {
+                return field.getName();
             }
         }
         return null;
