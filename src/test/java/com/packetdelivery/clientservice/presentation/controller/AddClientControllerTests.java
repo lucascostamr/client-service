@@ -11,12 +11,12 @@ import com.packetdelivery.clientservice.presentation.controller.AddClientControl
 import com.packetdelivery.clientservice.presentation.errors.InvalidParamException;
 import com.packetdelivery.clientservice.protocols.HttpRes;
 import com.packetdelivery.clientservice.protocols.HttpReq;
-import com.packetdelivery.clientservice.model.domain.AddClientModel;
+import com.packetdelivery.clientservice.model.domain.IAddClientModel;
 
 public class AddClientControllerTests {
     @Getter
     @AllArgsConstructor
-    class FakeAddClient implements AddClientModel {
+    class FakeAddClient implements IAddClientModel {
         private String name;
         private String email;
         private String cnpj;

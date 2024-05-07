@@ -1,6 +1,6 @@
 package com.packetdelivery.clientservice.model.domain;
 
-public interface AddClientModel {
+public interface IAddClientModel {
     public String getName();
 
     public String getEmail();
