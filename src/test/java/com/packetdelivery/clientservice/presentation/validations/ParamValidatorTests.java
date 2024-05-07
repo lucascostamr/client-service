@@ -6,12 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
 
-import com.packetdelivery.clientservice.presentation.controller.AddClientController;
-import com.packetdelivery.clientservice.presentation.errors.InvalidParamException;
 import com.packetdelivery.clientservice.presentation.validations.ParamValidator;
-import com.packetdelivery.clientservice.protocols.HttpRes;
-import com.packetdelivery.clientservice.protocols.HttpReq;
-import com.packetdelivery.clientservice.model.domain.IAddClientModel;
 
 public class ParamValidatorTests {
     @Getter
