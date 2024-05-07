@@ -1,7 +1,6 @@
 package com.packetdelivery.clientservice.presentation.controller;
 
 import static com.packetdelivery.clientservice.presentation.helpers.HttpHelper.*;
-import static com.packetdelivery.clientservice.presentation.validations.ParamValidator.validate;
 import com.packetdelivery.clientservice.presentation.errors.InvalidParamException;
 import com.packetdelivery.clientservice.presentation.validations.IValidator;
 import com.packetdelivery.clientservice.model.domain.IAddClientModel;
@@ -25,7 +24,7 @@ public class AddClientController implements IController {
             }
             return ok(client);
         } catch (Exception e) {
-            return serverError(e.getMessage());
+            return serverError(e);
         }
     }
 }
