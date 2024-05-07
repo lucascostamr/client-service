@@ -30,4 +30,11 @@ public class ParamValidatorTests {
         String response = validate(fakeObject);
         assertEquals(response, "name");
     }
+
+    @Test
+    void return_null_on_success() {
+        FakeObject fakeObject = new FakeObject("any_name", "any_email", "any_cnpj", "any_phone");
+        String response = validate(fakeObject);
+        assertEquals(response, null);
+    }
 }
