@@ -9,6 +9,6 @@ RUN \
 CMD [ "sh", "-c","\
     npm ci &&\
     source ./.inotify/file-event.sh &\
-    mvn spring-boot:run &&\
+    mvn clean install &&\
     sh\
 "]
