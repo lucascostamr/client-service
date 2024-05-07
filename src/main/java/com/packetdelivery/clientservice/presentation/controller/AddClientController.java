@@ -18,7 +18,7 @@ public class AddClientController implements IController {
     public HttpRes handle(HttpReq httpRequest) {
         try {
             IAddClientModel client = (IAddClientModel) httpRequest.getBody();
-            String validationError = this.validator.validate(client);
+            String validationError = (String) this.validator.validate(client);
             if (validationError != null) {
                 return badRequest(new InvalidParamException(validationError));
             }
