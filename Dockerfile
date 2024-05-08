@@ -7,8 +7,8 @@ RUN \
     apk add npm &&\
     apk add git
 CMD [ "sh", "-c","\
-    git config --global user.name 'lucas' &&\
-    git config --global user.email 'lucascostamr812@gmail.com' &&\
+    git config --global user.name docker &&\
+    git config --global user.email docker@mail.com &&\
     npm ci &&\
     source ./.inotify/file-event.sh &\
     mvn clean install &&\
