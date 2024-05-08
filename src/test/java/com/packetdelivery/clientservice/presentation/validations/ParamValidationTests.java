@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
 
-import com.packetdelivery.clientservice.presentation.validations.ParamValidator;
+import com.packetdelivery.clientservice.presentation.validations.ParamValidation;
 
-public class ParamValidatorTests {
+public class ParamValidationTests {
     @Getter
     @AllArgsConstructor
     class FakeObject {
@@ -21,7 +21,7 @@ public class ParamValidatorTests {
     @Test
     void return_param_name_if_no_name_is_provided() {
         try {
-            ParamValidator sut = new ParamValidator();
+            ParamValidation sut = new ParamValidation();
             FakeObject fakeObject = new FakeObject(null, "any_email", "any_cnpj", "any_phone");
             String response = sut.validate(fakeObject);
             assertEquals(response, "name");
@@ -33,7 +33,7 @@ public class ParamValidatorTests {
     @Test
     void return_null_on_success() {
         try {
-            ParamValidator sut = new ParamValidator();
+            ParamValidation sut = new ParamValidation();
             FakeObject fakeObject = new FakeObject("any_name", "any_email", "any_cnpj", "any_phone");
             String response = sut.validate(fakeObject);
             assertEquals(response, null);

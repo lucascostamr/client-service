@@ -9,8 +9,8 @@ import lombok.AllArgsConstructor;
 
 import com.packetdelivery.clientservice.presentation.controller.AddClientController;
 import com.packetdelivery.clientservice.presentation.errors.InvalidParamException;
-import com.packetdelivery.clientservice.presentation.validations.IValidator;
-import com.packetdelivery.clientservice.presentation.validations.ParamValidator;
+import com.packetdelivery.clientservice.presentation.protocols.IEmail;
+import com.packetdelivery.clientservice.presentation.validations.IValidation;
 import com.packetdelivery.clientservice.protocols.HttpRes;
 import com.packetdelivery.clientservice.protocols.HttpReq;
 import com.packetdelivery.clientservice.model.domain.IAddClientModel;
@@ -18,14 +18,14 @@ import com.packetdelivery.clientservice.model.domain.IAddClientModel;
 public class AddClientControllerTests {
     @Getter
     @AllArgsConstructor
-    class FakeAddClient implements IAddClientModel {
+    class FakeAddClient implements IAddClientModel, IEmail {
         private String name;
         private String email;
         private String cnpj;
         private String phone;
     }
 
-    class ValidatorStub implements IValidator {
+    class ValidatorStub implements IValidation {
         public String validate(Object obj) throws IllegalAccessException{
             return null;
         }
