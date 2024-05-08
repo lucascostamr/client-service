@@ -24,7 +24,8 @@ test:
 deploy:
   stage: deploy
   script:
-    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - mkdir -p ~/.docker
+    - echo "$DOCKER_CONFIG" | base64 -d > ~/.docker/config.json
     - echo "FROM maven:3.9.6-eclipse-temurin-22-alpine
             WORKDIR /app
             COPY ./target/clientservice-0.0.1-SNAPSHOT.jar /app
