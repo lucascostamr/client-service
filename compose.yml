@@ -1,7 +1,9 @@
 services:
   clientservice:
     container_name: clientservice 
-    build: .
+    build:
+      context: .
+    image: dreamagici4n/client-service
     volumes:
       - .:/app
     tty: true

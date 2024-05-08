@@ -1,0 +1,29 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - docker-compose up --build
+  only: ['main']
+
+test:
+  stage: test
+  script:
+    - docker exec -it clientservice mvn test
+    - docker-compose down --volumes
+  only: ['main']
+
+deploy:
+  stage: deploy
+  script:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - echo "FROM maven:3.9.6-eclipse-temurin-22-alpine
+            WORKDIR /app
+            COPY ./target/clientservice-0.0.1-SNAPSHOT.jar /app
+            CMD [ "sh", "-c","java -jar clientservice-0.0.1-SNAPSHOT.jar"]" > DockerFileProd
+    - docker build -f DockerFileProd -t dreamagici4n/client-service
+    - docker push dreamagici4n/client-service
+  only: ['main']
