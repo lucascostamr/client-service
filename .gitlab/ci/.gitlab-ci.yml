@@ -26,10 +26,7 @@ deploy:
   script:
     - mkdir -p ~/.docker
     - echo "$DOCKER_CONFIG" > ~/.docker/config.json
-    - echo "FROM maven:3.9.6-eclipse-temurin-22-alpine
-            WORKDIR /app
-            COPY ./target/clientservice-0.0.1-SNAPSHOT.jar /app
-            CMD [ "sh", "-c","java -jar clientservice-0.0.1-SNAPSHOT.jar"]" > DockerfileProd
+    - echo 'FROM maven:3.9.6-eclipse-temurin-22-alpine\nWORKDIR /app\nCOPY ./target/clientservice-0.0.1-SNAPSHOT.jar /app\ CMD [ "sh", "-c","java -jar clientservice-0.0.1-SNAPSHOT.jar"]' > DockerfileProd
     - docker build -f DockerfileProd -t dreamagici4n/client-service .
     - docker push dreamagici4n/client-service
   only:
