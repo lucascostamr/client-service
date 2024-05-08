@@ -31,6 +31,10 @@ public class AddClientControllerTests {
         }
     }
 
+    public FakeAddClient makeFakeAddClient() {
+        return new FakeAddClient(null, "any_email", "any_cnpj", "any_phone");
+    }
+
     @Getter
     @AllArgsConstructor
     class SutTypes {
@@ -50,7 +54,7 @@ public class AddClientControllerTests {
             SutTypes sutTypes = makeSut();
             AddClientController sut = sutTypes.getSut();
             ValidatorStub validatorMock = sutTypes.getValidatorMock();
-            FakeAddClient fakeAddClient = new FakeAddClient(null, "any_email", "any_cnpj", "any_phone");
+            FakeAddClient fakeAddClient = makeFakeAddClient();
             when(validatorMock.validate(fakeAddClient)).thenReturn("name");
             HttpReq fakeRequest = new HttpReq(fakeAddClient);
             HttpRes response = sut.handle(fakeRequest);
@@ -69,7 +73,7 @@ public class AddClientControllerTests {
             SutTypes sutTypes = makeSut();
             AddClientController sut = sutTypes.getSut();
             ValidatorStub validatorMock = sutTypes.getValidatorMock();
-            FakeAddClient fakeAddClient = new FakeAddClient(null, "any_email", "any_cnpj", "any_phone");
+            FakeAddClient fakeAddClient = makeFakeAddClient();
             when(validatorMock.validate(fakeAddClient)).thenThrow(new RuntimeException("error"));
             HttpReq fakeRequest = new HttpReq(fakeAddClient);
             HttpRes response = sut.handle(fakeRequest);
