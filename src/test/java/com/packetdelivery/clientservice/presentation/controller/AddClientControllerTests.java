@@ -26,7 +26,7 @@ public class AddClientControllerTests {
     }
 
     class ValidatorStub implements IValidation {
-        public String validate(Object obj) throws IllegalAccessException{
+        public String validate(Object obj) throws IllegalAccessException {
             return null;
         }
     }

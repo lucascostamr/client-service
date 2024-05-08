@@ -22,25 +22,25 @@ public class EmailValidationTests {
 
     @Getter
     @AllArgsConstructor
-    class FakeObject implements IEmail{
+    class FakeObject implements IEmail {
         private String email;
     }
-    
+
     @Getter
     @AllArgsConstructor
     class SutTypes {
         EmailValidation sut;
         ValidatorStub validatorStub;
     }
-    
-    public SutTypes makeSut(){
+
+    public SutTypes makeSut() {
         ValidatorStub validatorStub = mock(ValidatorStub.class);
         EmailValidation sut = new EmailValidation(validatorStub);
         return new SutTypes(sut, validatorStub);
     }
-    
+
     @Test
-    void return_param_email_if_invalid_email_is_provided(){
+    void return_param_email_if_invalid_email_is_provided() {
         try {
             SutTypes sutTypes = makeSut();
             EmailValidation sut = sutTypes.getSut();
@@ -55,7 +55,7 @@ public class EmailValidationTests {
     }
 
     @Test
-    void return_null_on_success(){
+    void return_null_on_success() {
         try {
             SutTypes sutTypes = makeSut();
             EmailValidation sut = sutTypes.getSut();

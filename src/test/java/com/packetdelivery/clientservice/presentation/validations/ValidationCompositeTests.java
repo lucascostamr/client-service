@@ -23,7 +23,7 @@ public class ValidationCompositeTests {
             return null;
         }
     }
-    
+
     @Getter
     @AllArgsConstructor
     class FakeAddClient implements IAddClientModel, IEmail {
@@ -32,7 +32,7 @@ public class ValidationCompositeTests {
         private String cnpj;
         private String phone;
     }
-    
+
     public FakeAddClient makeFakeAddClient() {
         return new FakeAddClient("any_name", "any_email", "any_cnpj", "any_phone");
     }
@@ -43,8 +43,8 @@ public class ValidationCompositeTests {
         private ValidationComposite sut;
         private ValidationStub validationStub;
     }
-    
-    private SutTypes makeSut(){
+
+    private SutTypes makeSut() {
         ValidationStub validationStub = mock(ValidationStub.class);
         List<IValidation> validationsList = new ArrayList<IValidation>();
         validationsList.add(validationStub);
@@ -52,7 +52,7 @@ public class ValidationCompositeTests {
         ValidationComposite sut = new ValidationComposite(validationsList);
         return new SutTypes(sut, validationStub);
     }
-    
+
     @Test
     void return_invalid_param_if_validations_fail() {
         try {
