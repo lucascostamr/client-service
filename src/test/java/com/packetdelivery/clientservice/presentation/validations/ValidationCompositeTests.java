@@ -63,4 +63,18 @@ public class ValidationCompositeTests {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    void return_null_on_success() {
+        try {
+            SutTypes sutTypes = makeSut();
+            ValidationComposite sut = sutTypes.getSut();
+            ValidationStub validationStub = sutTypes.getValidationStub();
+            FakeAddClient fakeAddClient = new FakeAddClient("any_name", "any_email", "any_cnpj", "any_phone");
+            String response = (String) sut.validate(fakeAddClient);
+            assertEquals(response, null);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
 }
