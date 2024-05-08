@@ -12,12 +12,14 @@ variables:
 
 before_script:
   - apk add --no-cache docker
+  - apk add --no-cache docker-compose
 
 test:
   stage: test
   script:
-    - docker build -t test-container .
-    - docker run test-container mvn test
+    - docker-compose up --build -d
+    - docker run dreamagici4n/client-service mvn test
+    - docker-compose down --volumes
   only:
     - main
 
@@ -26,7 +28,7 @@ deploy:
   script:
     - mkdir -p ~/.docker
     - echo "$DOCKER_CONFIG" > ~/.docker/config.json
-    - echo 'FROM maven:3.9.6-eclipse-temurin-22-alpine\nWORKDIR /app\nCOPY ./target/clientservice-0.0.1-SNAPSHOT.jar /app\ CMD [ "sh", "-c","java -jar clientservice-0.0.1-SNAPSHOT.jar"]' > DockerfileProd
+    - echo "FROM maven:3.9.6-eclipse-temurin-22-alpine\nWORKDIR /app\nCOPY ./target/clientservice-0.0.1-SNAPSHOT.jar /app\nCMD [\"sh\", \"-c\", \"java -jar clientservice-0.0.1-SNAPSHOT.jar\"]" > DockerfileProd
     - docker build -f DockerfileProd -t dreamagici4n/client-service .
     - docker push dreamagici4n/client-service
   only:
