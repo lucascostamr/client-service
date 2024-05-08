@@ -26,10 +26,10 @@ test:
 deploy:
   stage: deploy
   script:
-    - echo $CONTAINER_TEST_IMAGE
+    - echo $CONTAINER_IMAGE_TAG
     - echo "$CI_DEPLOY_PASSWORD" | docker login $CI_REGISTRY -u $CI_DEPLOY_USER --password-stdin
     - echo -e "FROM maven:3.9.6-eclipse-temurin-22-alpine\nWORKDIR /app\nCOPY ./target/clientservice-0.0.1-SNAPSHOT.jar /app\nCMD [\"sh\", \"-c\", \"java -jar clientservice-0.0.1-SNAPSHOT.jar\"]" > DockerfileProd
-    - docker build -f DockerfileProd -t dreamagici4n/client-service .
-    - docker push dreamagici4n/client-service
+    - docker build -f DockerfileProd -t $CONTAINER_IMAGE_TAG .
+    - docker push $CONTAINER_IMAGE_TAG
   only:
     - main
