@@ -16,6 +16,7 @@ public class EmailValidation implements IValidation{
         IEmail client = (IEmail) obj;
         String email = client.getEmail();
         boolean isValid = validator.isValid(email);
-        return isValid;
+        if(isValid) return null;
+        return "email";
     }
 }
