@@ -33,6 +33,10 @@ public class ValidationCompositeTests {
         private String phone;
     }
     
+    public FakeAddClient makeFakeAddClient() {
+        return new FakeAddClient("any_name", "any_email", "any_cnpj", "any_phone");
+    }
+
     @Getter
     @AllArgsConstructor
     class SutTypes {
@@ -55,7 +59,7 @@ public class ValidationCompositeTests {
             SutTypes sutTypes = makeSut();
             ValidationComposite sut = sutTypes.getSut();
             ValidationStub validationStub = sutTypes.getValidationStub();
-            FakeAddClient fakeAddClient = new FakeAddClient("any_name", "any_email", "any_cnpj", "any_phone");
+            FakeAddClient fakeAddClient = makeFakeAddClient();
             when(validationStub.validate(fakeAddClient)).thenReturn("name");
             String response = (String) sut.validate(fakeAddClient);
             assertEquals(response, "name");
@@ -70,8 +74,7 @@ public class ValidationCompositeTests {
             SutTypes sutTypes = makeSut();
             ValidationComposite sut = sutTypes.getSut();
             ValidationStub validationStub = sutTypes.getValidationStub();
-            FakeAddClient fakeAddClient = new FakeAddClient("any_name", "any_email", "any_cnpj", "any_phone");
-            String response = (String) sut.validate(fakeAddClient);
+            String response = (String) sut.validate(makeFakeAddClient());
             assertEquals(response, null);
         } catch (Exception e) {
             fail(e.getMessage());
