@@ -1,4 +1,4 @@
-package com.packetdelivery.clientservice.presentation.validations;
+package com.packetdelivery.clientservice;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,11 +9,6 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.AllArgsConstructor;
-
-import com.packetdelivery.clientservice.model.domain.IAddClientModel;
-import com.packetdelivery.clientservice.presentation.protocols.IEmail;
-import com.packetdelivery.clientservice.presentation.validations.IValidation;
-import com.packetdelivery.clientservice.presentation.validations.ValidationComposite;
 
 public class ValidationCompositeTests {
 

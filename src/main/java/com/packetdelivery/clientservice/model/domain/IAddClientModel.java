@@ -1,7 +1,9 @@
-package com.packetdelivery.clientservice.model.domain;
+package com.packetdelivery.clientservice;
 
 public interface IAddClientModel {
     public String getName();
+
+    public String getEmail();
 
     public String getCnpj();
 
