@@ -1,4 +1,4 @@
-package com.packetdelivery.clientservice.protocols;
+package com.packetdelivery.clientservice;
 
 import lombok.Getter;
 import lombok.AllArgsConstructor;

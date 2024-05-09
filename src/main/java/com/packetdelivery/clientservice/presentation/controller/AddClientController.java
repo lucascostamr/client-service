@@ -1,18 +1,12 @@
-package com.packetdelivery.clientservice.presentation.controller;
-
-import static com.packetdelivery.clientservice.presentation.helpers.HttpHelper.*;
-import com.packetdelivery.clientservice.presentation.errors.InvalidParamException;
-import com.packetdelivery.clientservice.presentation.validations.IValidation;
-import com.packetdelivery.clientservice.model.domain.IAddClientModel;
-import com.packetdelivery.clientservice.protocols.IController;
-import com.packetdelivery.clientservice.protocols.HttpReq;
-import com.packetdelivery.clientservice.protocols.HttpRes;
+package com.packetdelivery.clientservice;
 
 public class AddClientController implements IController {
     private IValidation validator;
+    private IAddClientRepository addClientRepository;
 
-    public AddClientController(IValidation validator) {
+    public AddClientController(IValidation validator, IAddClientRepository addClientRepository) {
         this.validator = validator;
+        this.addClientRepository = addClientRepository;
     }
 
     public HttpRes handle(HttpReq httpRequest) {
@@ -20,11 +14,12 @@ public class AddClientController implements IController {
             IAddClientModel client = (IAddClientModel) httpRequest.getBody();
             String validationError = (String) this.validator.validate(client);
             if (validationError != null) {
-                return badRequest(new InvalidParamException(validationError));
+                return HttpHelper.badRequest(new InvalidParamException(validationError));
             }
-            return ok(client);
+            this.addClientRepository.add(client);
+            return HttpHelper.ok(client);
         } catch (Exception e) {
-            return serverError(e);
+            return HttpHelper.serverError(e);
         }
     }
 }

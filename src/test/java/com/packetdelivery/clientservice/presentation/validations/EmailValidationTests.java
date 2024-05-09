@@ -1,4 +1,4 @@
-package com.packetdelivery.clientservice.presentation.validations;
+package com.packetdelivery.clientservice;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -6,10 +6,6 @@ import static org.mockito.Mockito.*;
 
 import lombok.Getter;
 import lombok.AllArgsConstructor;
-
-import com.packetdelivery.clientservice.presentation.protocols.IEmail;
-import com.packetdelivery.clientservice.presentation.validations.EmailValidation;
-import com.packetdelivery.clientservice.presentation.validations.IValidator;
 
 public class EmailValidationTests {
 

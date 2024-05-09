@@ -1,12 +1,10 @@
-package com.packetdelivery.clientservice.presentation.validations;
+package com.packetdelivery.clientservice;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import lombok.Getter;
 import lombok.AllArgsConstructor;
-
-import com.packetdelivery.clientservice.presentation.validations.ParamValidation;
 
 public class ParamValidationTests {
     @Getter
