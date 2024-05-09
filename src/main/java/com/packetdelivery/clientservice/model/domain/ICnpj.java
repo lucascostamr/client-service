@@ -1,4 +1,4 @@
-package com.packetdelivery.clientservice.model.domain;
+package com.packetdelivery.clientservice;
 
 public interface ICnpj {
     public String getCnpj();
