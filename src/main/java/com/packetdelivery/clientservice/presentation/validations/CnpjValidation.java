@@ -2,7 +2,7 @@ package com.packetdelivery.clientservice.presentation.validations;
 
 import com.packetdelivery.clientservice.presentation.validations.IValidation;
 import com.packetdelivery.clientservice.presentation.validations.IValidator;
-import com.packetdelivery.clientservice.presentation.protocols.ICnpj;
+import com.packetdelivery.clientservice.model.domain.ICnpj;
 
 public class CnpjValidation implements IValidation {
     private IValidator validator;
