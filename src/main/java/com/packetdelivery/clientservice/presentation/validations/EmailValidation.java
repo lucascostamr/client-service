@@ -1,7 +1,7 @@
 package com.packetdelivery.clientservice.presentation.validations;
 
-import com.packetdelivery.clientservice.presentation.validations.IValidation;
-import com.packetdelivery.clientservice.presentation.validations.IValidator;
+import com.packetdelivery.clientservice.presentation.validations.protocols.IValidation;
+import com.packetdelivery.clientservice.presentation.validations.protocols.IValidator;
 import com.packetdelivery.clientservice.model.domain.IEmail;
 
 public class EmailValidation implements IValidation {
