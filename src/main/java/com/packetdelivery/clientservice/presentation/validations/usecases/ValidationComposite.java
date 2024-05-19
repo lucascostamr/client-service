@@ -1,8 +1,6 @@
-package com.packetdelivery.clientservice.presentation.validations;
+package com.packetdelivery.clientservice;
 
 import java.util.List;
-
-import com.packetdelivery.clientservice.presentation.validations.IValidation;
 
 public class ValidationComposite implements IValidation {
     private List<IValidation> validationList;

@@ -1,8 +1,4 @@
-package com.packetdelivery.clientservice.presentation.validations;
-
-import com.packetdelivery.clientservice.presentation.validations.IValidation;
-import com.packetdelivery.clientservice.presentation.validations.IValidator;
-import com.packetdelivery.clientservice.presentation.protocols.IEmail;
+package com.packetdelivery.clientservice;
 
 public class EmailValidation implements IValidation {
     private IValidator validator;

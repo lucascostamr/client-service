@@ -1,4 +1,4 @@
-package com.packetdelivery.clientservice.presentation.validations;
+package com.packetdelivery.clientservice;
 
 import java.util.List;
 

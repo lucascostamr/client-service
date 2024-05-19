@@ -1,6 +1,8 @@
 package com.packetdelivery.clientservice;
 
-public interface IAddClientModel {
+public interface IClientModel {
+    public String getId();
+
     public String getName();
 
     public String getEmail();

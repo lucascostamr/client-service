@@ -1,4 +1,4 @@
-package com.packetdelivery.clientservice.presentation.validations;
+package com.packetdelivery.clientservice;
 
 public interface IValidator {
     public boolean isValid(Object obj);
