@@ -60,7 +60,7 @@ public class AddClientControllerTests {
             HttpRes response = sut.handle(fakeRequest);
             InvalidParamException responseException = (InvalidParamException) response.getBody();
             InvalidParamException fakeException = new InvalidParamException("name");
-            assertEquals(response.getStatusCode(), 400);
+            assertEquals(response.getStatusCode(), 800);
             assertEquals(responseException.getMessage(), fakeException.getMessage());
         } catch (Exception e) {
             fail();
