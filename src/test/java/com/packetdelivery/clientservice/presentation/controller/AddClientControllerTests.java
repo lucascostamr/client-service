@@ -8,29 +8,11 @@ import lombok.Getter;
 import lombok.AllArgsConstructor;
 
 public class AddClientControllerTests {
-    @Getter
-    @AllArgsConstructor
-    class ClientModel implements IClientModel {
-        private String id;
-        private String name;
-        private String email;
-        private String cnpj;
-        private String phone;
-    }
 
-    class AddClientRepositoryStub implements IAddClientRepository {
-        public ClientModel add(IAddClientModel client) {
-            return new ClientModel("any_id", "any_name", "any_email", "any_cnpj", "any_phone");
+    class AddClientStub implements IAddClient {
+        public ClientModel add(AddClientModel client) {
+            return null;
         }
-    }
-
-    @Getter
-    @AllArgsConstructor
-    class FakeAddClientModel implements IAddClientModel, IEmail {
-        private String name;
-        private String email;
-        private String cnpj;
-        private String phone;
     }
 
     class ValidatorStub implements IValidation {
@@ -39,38 +21,38 @@ public class AddClientControllerTests {
         }
     }
 
-    public FakeAddClientModel makeFakeAddClientModel() {
-        return new FakeAddClientModel(null, "any_email", "any_cnpj", "any_phone");
+    public AddClientModel makeFakeAddClientModel() {
+        return new AddClientModel("any_name", "any_email", "any_cnpj", "any_phone");
     }
 
     @Getter
     @AllArgsConstructor
     class SutTypes {
         AddClientController sut;
-        ValidatorStub validatorMock;
-        AddClientRepositoryStub addClientRepositoryStub;
+        ValidatorStub validatorStub;
+        AddClientStub addClientStub;
     }
 
     public SutTypes makeSut() {
-        AddClientRepositoryStub addClientRepositoryStub = mock(AddClientRepositoryStub.class);
-        ValidatorStub validatorMock = mock(ValidatorStub.class);
-        AddClientController sut = new AddClientController(validatorMock, addClientRepositoryStub);
-        return new SutTypes(sut, validatorMock, addClientRepositoryStub);
+        AddClientStub addClientStub = mock(AddClientStub.class);
+        ValidatorStub validatorStub = mock(ValidatorStub.class);
+        AddClientController sut = new AddClientController(validatorStub, addClientStub);
+        return new SutTypes(sut, validatorStub, addClientStub);
     }
 
     @Test
-    void return_400_if_no_name_is_provided() {
+    void return_400_if_validator_returns_param() {
         try {
             SutTypes sutTypes = makeSut();
             AddClientController sut = sutTypes.getSut();
-            ValidatorStub validatorMock = sutTypes.getValidatorMock();
-            FakeAddClientModel fakeAddClientModel = makeFakeAddClientModel();
-            when(validatorMock.validate(fakeAddClientModel)).thenReturn("name");
+            ValidatorStub validatorStub = sutTypes.getValidatorStub();
+            AddClientModel fakeAddClientModel = makeFakeAddClientModel();
+            when(validatorStub.validate(fakeAddClientModel)).thenReturn("name");
             HttpReq fakeRequest = new HttpReq(fakeAddClientModel);
             HttpRes response = sut.handle(fakeRequest);
             InvalidParamException responseException = (InvalidParamException) response.getBody();
             InvalidParamException fakeException = new InvalidParamException("name");
-            assertEquals(response.getStatusCode(), 800);
+            assertEquals(response.getStatusCode(), 400);
             assertEquals(responseException.getMessage(), fakeException.getMessage());
         } catch (Exception e) {
             fail();
@@ -82,9 +64,9 @@ public class AddClientControllerTests {
         try {
             SutTypes sutTypes = makeSut();
             AddClientController sut = sutTypes.getSut();
-            ValidatorStub validatorMock = sutTypes.getValidatorMock();
-            FakeAddClientModel fakeAddClientModel = makeFakeAddClientModel();
-            when(validatorMock.validate(fakeAddClientModel)).thenThrow(new RuntimeException("error"));
+            ValidatorStub validatorStub = sutTypes.getValidatorStub();
+            AddClientModel fakeAddClientModel = makeFakeAddClientModel();
+            when(validatorStub.validate(fakeAddClientModel)).thenThrow(new RuntimeException("error"));
             HttpReq fakeRequest = new HttpReq(fakeAddClientModel);
             HttpRes response = sut.handle(fakeRequest);
             Exception responseException = (Exception) response.getBody();
@@ -100,11 +82,11 @@ public class AddClientControllerTests {
         try {
             SutTypes sutTypes = makeSut();
             AddClientController sut = sutTypes.getSut();
-            AddClientRepositoryStub addClientRepositoryStub = sutTypes.getAddClientRepositoryStub();
-            FakeAddClientModel fakeAddClientModel = makeFakeAddClientModel();
+            AddClientStub addClientStub = sutTypes.getAddClientStub();
+            AddClientModel fakeAddClientModel = makeFakeAddClientModel();
             HttpReq fakeRequest = new HttpReq(fakeAddClientModel);
             sut.handle(fakeRequest);
-            verify(addClientRepositoryStub).add(fakeAddClientModel);
+            verify(addClientStub).add(fakeAddClientModel);
         } catch (Exception e) {
             fail();
         }
@@ -115,16 +97,36 @@ public class AddClientControllerTests {
         try {
             SutTypes sutTypes = makeSut();
             AddClientController sut = sutTypes.getSut();
-            AddClientRepositoryStub addClientRepositoryStub = sutTypes.getAddClientRepositoryStub();
-            FakeAddClientModel fakeAddClientModel = makeFakeAddClientModel();
+            AddClientStub addClientStub = sutTypes.getAddClientStub();
+            AddClientModel fakeAddClientModel = makeFakeAddClientModel();
             HttpReq fakeRequest = new HttpReq(fakeAddClientModel);
-            when(addClientRepositoryStub.add(fakeAddClientModel)).thenThrow(new RuntimeException("error"));
+            when(addClientStub.add(fakeAddClientModel)).thenThrow(new RuntimeException("error"));
             HttpRes response = sut.handle(fakeRequest);
             Exception responseException = (Exception) response.getBody();
             assertEquals(response.getStatusCode(), 500);
             assertEquals(responseException.getMessage(), "error");
         } catch (Exception e) {
             fail();
+        }
+    }
+
+    @Test
+    void return_ClientModel_on_AddClientRepository_success() {
+        try {
+            SutTypes sutTypes = makeSut();
+            AddClientController sut = sutTypes.getSut();
+            AddClientStub addClientStub = sutTypes.getAddClientStub();
+            AddClientModel fakeAddClientModel = makeFakeAddClientModel();
+            ClientModel fakeClientModel = mock(ClientModel.class);
+            when(fakeClientModel.getId()).thenReturn("any_id");
+            HttpReq fakeRequest = new HttpReq(fakeAddClientModel);
+            when(addClientStub.add(fakeAddClientModel)).thenReturn(fakeClientModel);
+            HttpRes response = sut.handle(fakeRequest);
+            ClientModel responseBody = (ClientModel) response.getBody();
+            assertEquals(response.getStatusCode(), 200);
+            assertEquals(responseBody.getId(), "any_id");
+        } catch (Exception e) {
+            fail(e.getMessage());
         }
     }
 }
