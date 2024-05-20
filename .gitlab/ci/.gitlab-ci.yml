@@ -19,7 +19,7 @@ test:
   stage: test
   script:
     - docker-compose up --build -d
-    - docker run dreamagici4n/client-service mvn clean install
+    - docker exec clientservice mvn test
     - docker-compose down --volumes
   only:
     - main
