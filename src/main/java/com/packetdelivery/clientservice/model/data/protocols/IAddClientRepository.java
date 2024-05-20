@@ -1,5 +1,5 @@
 package com.packetdelivery.clientservice;
 
 public interface IAddClientRepository {
-    public IClientModel add(IAddClientModel client);
+    public ClientModel add(AddClientModel client) throws Exception, EmailException;
 }

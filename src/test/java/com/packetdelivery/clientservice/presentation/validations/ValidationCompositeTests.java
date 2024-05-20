@@ -19,17 +19,8 @@ public class ValidationCompositeTests {
         }
     }
 
-    @Getter
-    @AllArgsConstructor
-    class FakeAddClient implements IAddClientModel, IEmail {
-        private String name;
-        private String email;
-        private String cnpj;
-        private String phone;
-    }
-
-    public FakeAddClient makeFakeAddClient() {
-        return new FakeAddClient("any_name", "any_email", "any_cnpj", "any_phone");
+    public AddClientModel makeFakeAddClientModel() {
+        return new AddClientModel("any_name", "any_email", "any_cnpj", "any_phone");
     }
 
     @Getter
@@ -54,9 +45,9 @@ public class ValidationCompositeTests {
             SutTypes sutTypes = makeSut();
             ValidationComposite sut = sutTypes.getSut();
             ValidationStub validationStub = sutTypes.getValidationStub();
-            FakeAddClient fakeAddClient = makeFakeAddClient();
-            when(validationStub.validate(fakeAddClient)).thenReturn("name");
-            String response = (String) sut.validate(fakeAddClient);
+            AddClientModel fakeAddClientModel = makeFakeAddClientModel();
+            when(validationStub.validate(fakeAddClientModel)).thenReturn("name");
+            String response = (String) sut.validate(fakeAddClientModel);
             assertEquals(response, "name");
         } catch (Exception e) {
             fail(e.getMessage());
@@ -69,7 +60,7 @@ public class ValidationCompositeTests {
             SutTypes sutTypes = makeSut();
             ValidationComposite sut = sutTypes.getSut();
             ValidationStub validationStub = sutTypes.getValidationStub();
-            String response = (String) sut.validate(makeFakeAddClient());
+            String response = (String) sut.validate(makeFakeAddClientModel());
             assertEquals(response, null);
         } catch (Exception e) {
             fail(e.getMessage());

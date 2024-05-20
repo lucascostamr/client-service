@@ -11,7 +11,7 @@ public class EmailValidationTests {
 
     class ValidatorStub implements IValidator {
         @Override
-        public boolean isValid(Object obj) {
+        public boolean isValid(String obj) {
             return true;
         }
     }
