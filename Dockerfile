@@ -3,11 +3,9 @@ WORKDIR /app
 COPY . /app
 RUN \
     apk upgrade &&\
-    apk add inotify-tools &&\
-    apk add npm &&\
-    apk add git
+    apk add --no-cache inotify-tools npm git &&\
+    npm i
 CMD [ "sh", "-c","\
-    npm ci &&\
     source ./.inotify/file-event.sh &\
     mvn clean install &&\
     sh\

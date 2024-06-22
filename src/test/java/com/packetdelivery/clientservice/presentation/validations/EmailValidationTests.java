@@ -1,50 +1,40 @@
 package com.packetdelivery.clientservice;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import lombok.Getter;
-import lombok.AllArgsConstructor;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class EmailValidationTests {
 
-    class ValidatorStub implements IValidator {
-        @Override
-        public boolean isValid(String obj) {
-            return true;
-        }
-    }
+    @Mock
+    private IValidator validatorStub;
 
-    @Getter
-    @AllArgsConstructor
-    class FakeObject implements IEmail {
-        private String email;
-    }
+    @InjectMocks
+    private EmailValidation sut;
 
-    @Getter
-    @AllArgsConstructor
-    class SutTypes {
-        EmailValidation sut;
-        ValidatorStub validatorStub;
-    }
+    private IEmail fakeObject;
 
-    public SutTypes makeSut() {
-        ValidatorStub validatorStub = mock(ValidatorStub.class);
-        EmailValidation sut = new EmailValidation(validatorStub);
-        return new SutTypes(sut, validatorStub);
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        fakeObject = mock(IEmail.class);
     }
 
     @Test
     void return_param_email_if_invalid_email_is_provided() {
         try {
-            SutTypes sutTypes = makeSut();
-            EmailValidation sut = sutTypes.getSut();
-            ValidatorStub validatorStub = sutTypes.getValidatorStub();
-            FakeObject fakeObject = new FakeObject("invalid_email");
             when(validatorStub.isValid("invalid_email")).thenReturn(false);
+            when(fakeObject.getEmail()).thenReturn("invalid_email");
             String response = (String) sut.validate(fakeObject);
-            assertEquals(response, "email");
+            assertEquals("email", response);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -53,13 +43,10 @@ public class EmailValidationTests {
     @Test
     void return_null_on_success() {
         try {
-            SutTypes sutTypes = makeSut();
-            EmailValidation sut = sutTypes.getSut();
-            ValidatorStub validatorStub = sutTypes.getValidatorStub();
-            FakeObject fakeObject = new FakeObject("valid_email");
             when(validatorStub.isValid("valid_email")).thenReturn(true);
+            when(fakeObject.getEmail()).thenReturn("valid_email");
             String response = (String) sut.validate(fakeObject);
-            assertEquals(response, null);
+            assertNull(response);
         } catch (Exception e) {
             fail(e.getMessage());
         }

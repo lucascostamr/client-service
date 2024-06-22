@@ -12,7 +12,15 @@ public class HttpHelper {
         return new HttpRes(200, body);
     }
 
+    public static HttpRes notFound(Object body) {
+        return new HttpRes(404, body);
+    }
+
     public static HttpRes serverError(Object body) {
         return new HttpRes(500, body);
+    }
+
+    public static HttpRes created(Object body) {
+        return new HttpRes(201, body);
     }
 }

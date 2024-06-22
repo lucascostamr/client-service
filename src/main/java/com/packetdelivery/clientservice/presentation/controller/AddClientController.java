@@ -19,9 +19,9 @@ public class AddClientController implements IController {
             if (validationError != null) {
                 return HttpHelper.badRequest(new InvalidParamException(validationError));
             }
-            ClientModel clientData = this.addClientRepository.add(client);
-            return HttpHelper.ok(clientData);
-        } catch (EmailException e) {
+            String token = this.addClientRepository.add(client);
+            return HttpHelper.created(token);
+        } catch (CnpjException | EmailException e) {
             return HttpHelper.badRequest(e);
         } catch (Exception e) {
             return HttpHelper.serverError(e);

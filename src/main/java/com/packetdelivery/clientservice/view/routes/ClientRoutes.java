@@ -7,15 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RestController
 @RequestMapping("clients")
 public class ClientRoutes {
-    @Autowired
-    private final AddClientController addClientController;
+    private AddClientController addClientController;
+    private UpdateClientController updateClientController;
 
-    public ClientRoutes(AddClientController addClientController) {
+    @Autowired
+    public ClientRoutes(AddClientController addClientController, UpdateClientController updateClientController) {
         this.addClientController = addClientController;
+        this.updateClientController = updateClientController;
     }
 
     @PostMapping("/add")
     public ResponseEntity<ClientModel> createClient(@RequestBody AddClientModel client) {
         return ResponseEntityAdapter.adapt(addClientController, client);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ClientModel> createClient(@PathVariable String id, @RequestBody UpdateClientModel client) {
+        client.setToken(id);
+        return ResponseEntityAdapter.adapt(updateClientController, client);
     }
 }
