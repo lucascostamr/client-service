@@ -1,6 +1,7 @@
 package com.packetdelivery.clientservice;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -30,5 +32,9 @@ public class ClientModel {
 
     public String getId() {
         return this.id.toString();
+    }
+
+    public UUID getUUID() {
+        return this.id;
     }
 }

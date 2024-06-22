@@ -1,66 +1,52 @@
 package com.packetdelivery.clientservice;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import lombok.Getter;
-import lombok.AllArgsConstructor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 public class CnpjValidationTests {
 
-    class ValidatorStub implements IValidator {
-        @Override
-        public boolean isValid(String obj) {
-            return true;
-        }
-    }
+    @Mock
+    private IValidator validatorStub;
 
-    @Getter
-    @AllArgsConstructor
-    class FakeObject implements ICnpj {
-        private String cnpj;
-    }
+    @InjectMocks
+    private CnpjValidation sut;
 
-    @Getter
-    @AllArgsConstructor
-    class SutTypes {
-        CnpjValidation sut;
-        ValidatorStub validatorStub;
-    }
+    private ICnpj fakeObject;
 
-    public SutTypes makeSut() {
-        ValidatorStub validatorStub = mock(ValidatorStub.class);
-        CnpjValidation sut = new CnpjValidation(validatorStub);
-        return new SutTypes(sut, validatorStub);
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        fakeObject = mock(ICnpj.class);
     }
 
     @Test
-    void return_param_cpnj_on_fail() {
+    void should_return_param_cpnj_on_fail() {
         try {
-            SutTypes sutTypes = makeSut();
-            CnpjValidation sut = sutTypes.getSut();
-            ValidatorStub validatorStub = sutTypes.getValidatorStub();
-            FakeObject fakeObject = new FakeObject("invalid_cnpj");
             when(validatorStub.isValid("invalid_cnpj")).thenReturn(false);
+            when(fakeObject.getCnpj()).thenReturn("invalid_cnpj");
             String response = (String) sut.validate(fakeObject);
-            assertEquals(response, "cnpj");
+            assertEquals("cnpj", response);
         } catch (Exception e) {
             fail(e.getMessage());
         }
     }
 
     @Test
-    void return_null_on_success() {
+    void should_return_null_on_success() {
         try {
-            SutTypes sutTypes = makeSut();
-            CnpjValidation sut = sutTypes.getSut();
-            ValidatorStub validatorStub = sutTypes.getValidatorStub();
-            FakeObject fakeObject = new FakeObject("valid_cnpj");
             when(validatorStub.isValid("valid_cnpj")).thenReturn(true);
+            when(fakeObject.getCnpj()).thenReturn("valid_cnpj");
             String response = (String) sut.validate(fakeObject);
-            assertEquals(response, null);
+            assertNull(response);
         } catch (Exception e) {
             fail(e.getMessage());
         }

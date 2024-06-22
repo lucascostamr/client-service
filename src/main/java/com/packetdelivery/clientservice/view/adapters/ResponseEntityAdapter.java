@@ -17,8 +17,13 @@ public class ResponseEntityAdapter {
         case 400:
             Exception badRequest = (Exception) response.getBody();
             return new ResponseEntity(badRequest.getMessage(), HttpStatus.BAD_REQUEST);
-        default:
+        case 404:
+            Exception notFound = (Exception) response.getBody();
+            return new ResponseEntity(notFound.getMessage(), HttpStatus.NOT_FOUND);
+        case 201:
             return new ResponseEntity(response.getBody(), HttpStatus.CREATED);
+        default:
+            return new ResponseEntity(response.getBody(), HttpStatus.OK);
         }
     }
 }

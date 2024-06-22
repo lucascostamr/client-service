@@ -1,42 +1,41 @@
 package com.packetdelivery.clientservice;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 
-import lombok.Getter;
-import lombok.AllArgsConstructor;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class ParamValidationTests {
-    @Getter
-    @AllArgsConstructor
-    class FakeObject {
-        private String name;
-        private String email;
-        private String cnpj;
-        private String phone;
+
+    @InjectMocks
+    private ParamValidation sut;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void return_param_name_if_no_name_is_provided() {
         try {
-            ParamValidation sut = new ParamValidation();
-            FakeObject fakeObject = new FakeObject(null, "any_email", "any_cnpj", "any_phone");
-            String response = sut.validate(fakeObject);
+            String response = sut.validate(new AddClientModel(null, "any_email", "any_cnpj", "any_phone"));
             assertEquals(response, "name");
         } catch (Exception e) {
-            fail();
+            fail(e.getMessage());
         }
     }
 
     @Test
     void return_null_on_success() {
         try {
-            ParamValidation sut = new ParamValidation();
-            FakeObject fakeObject = new FakeObject("any_name", "any_email", "any_cnpj", "any_phone");
-            String response = sut.validate(fakeObject);
-            assertEquals(response, null);
+            String response = sut.validate(new AddClientModel("any_name", "any_email", "any_cnpj", "any_phone"));
+            assertNull(response);
         } catch (Exception e) {
-            fail();
+            fail(e.getMessage());
         }
     }
 }

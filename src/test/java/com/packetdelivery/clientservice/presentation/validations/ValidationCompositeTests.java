@@ -1,54 +1,44 @@
 package com.packetdelivery.clientservice;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.AllArgsConstructor;
-
 public class ValidationCompositeTests {
 
-    class ValidationStub implements IValidation {
-        @Override
-        public Object validate(Object obj) throws IllegalAccessException {
-            return null;
-        }
-    }
+    @Mock
+    private IValidation validationStub;
 
-    public AddClientModel makeFakeAddClientModel() {
-        return new AddClientModel("any_name", "any_email", "any_cnpj", "any_phone");
-    }
+    private ValidationComposite sut;
 
-    @Getter
-    @AllArgsConstructor
-    class SutTypes {
-        private ValidationComposite sut;
-        private ValidationStub validationStub;
-    }
+    private AddClientModel fakeAddClientModel;
 
-    private SutTypes makeSut() {
-        ValidationStub validationStub = mock(ValidationStub.class);
-        List<IValidation> validationsList = new ArrayList<IValidation>();
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        List<IValidation> validationsList = new ArrayList<>();
         validationsList.add(validationStub);
-        validationsList.add(new ValidationStub());
-        ValidationComposite sut = new ValidationComposite(validationsList);
-        return new SutTypes(sut, validationStub);
+        sut = new ValidationComposite(validationsList);
+        fakeAddClientModel = mock(AddClientModel.class);
     }
 
     @Test
     void return_invalid_param_if_validations_fail() {
         try {
-            SutTypes sutTypes = makeSut();
-            ValidationComposite sut = sutTypes.getSut();
-            ValidationStub validationStub = sutTypes.getValidationStub();
-            AddClientModel fakeAddClientModel = makeFakeAddClientModel();
-            when(validationStub.validate(fakeAddClientModel)).thenReturn("name");
+            when(validationStub.validate(fakeAddClientModel)).thenReturn("any_param");
             String response = (String) sut.validate(fakeAddClientModel);
-            assertEquals(response, "name");
+            assertEquals(response, "any_param");
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -57,11 +47,8 @@ public class ValidationCompositeTests {
     @Test
     void return_null_on_success() {
         try {
-            SutTypes sutTypes = makeSut();
-            ValidationComposite sut = sutTypes.getSut();
-            ValidationStub validationStub = sutTypes.getValidationStub();
-            String response = (String) sut.validate(makeFakeAddClientModel());
-            assertEquals(response, null);
+            String response = (String) sut.validate(fakeAddClientModel);
+            assertNull(response);
         } catch (Exception e) {
             fail(e.getMessage());
         }
