@@ -29,8 +29,6 @@ deploy:
   script:
     - echo "$CI_DEPLOY_PASSWORD" | docker login $CI_REGISTRY -u $CI_DEPLOY_USER --password-stdin
     - filename=$(find ./target -name 'clientservice-*.jar' | head -n 1)
-    - version=$(basename "$filename" | sed 's/[^0-9.]*\([0-9.]*\).*/\1/')
-    - CONTAINER_IMAGE_TAG="$CI_REGISTRY_IMAGE:$version"
     - echo -e "FROM maven:3.9.6-eclipse-temurin-22-alpine\nWORKDIR /app\nCOPY $filename /app\nCMD [\"sh\", \"-c\", \"java -jar $(basename "$filename")\"]" > DockerfileProd
     - docker build -f DockerfileProd -t $CONTAINER_IMAGE_TAG .
     - docker push $CONTAINER_IMAGE_TAG
