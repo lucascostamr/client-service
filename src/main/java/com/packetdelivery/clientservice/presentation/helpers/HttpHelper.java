@@ -23,4 +23,8 @@ public class HttpHelper {
     public static HttpRes created(Object body) {
         return new HttpRes(201, body);
     }
+
+    public static HttpRes noContent() {
+        return new HttpRes(204, null);
+    }
 }

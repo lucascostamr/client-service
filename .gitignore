@@ -37,3 +37,6 @@ build/
 node_modules
 
 TODO.md
+
+### ENV FILES ###
+.env

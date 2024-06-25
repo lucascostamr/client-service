@@ -32,18 +32,14 @@ public class DbClientRepositoryTests {
     }
 
     @Test
-    void return_token_on_AddClientRepository_success() {
-        try {
-            AddClientModel fakeAddClientModel = mock(AddClientModel.class);
-            ClientModel fakeClientModel = mock(ClientModel.class);
-            when(fakeClientModel.getId()).thenReturn("any_id");
-            when(encoderStub.encode("any_id")).thenReturn("any_token");
-            when(addClientRepositoryStub.add(fakeAddClientModel)).thenReturn(fakeClientModel);
-            String response = sut.add(fakeAddClientModel);
-            assertEquals(response, "any_token");
-            verify(addClientRepositoryStub).add(fakeAddClientModel);
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+    void return_token_on_AddClientRepository_success() throws Exception {
+        AddClientModel fakeAddClientModel = mock(AddClientModel.class);
+        ClientModel fakeClientModel = mock(ClientModel.class);
+        when(fakeClientModel.getId()).thenReturn("any_id");
+        when(encoderStub.encode("any_id")).thenReturn("any_token");
+        when(addClientRepositoryStub.add(fakeAddClientModel)).thenReturn(fakeClientModel);
+        String response = sut.add(fakeAddClientModel);
+        assertEquals(response, "any_token");
+        verify(addClientRepositoryStub).add(fakeAddClientModel);
     }
 }

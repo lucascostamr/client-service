@@ -16,4 +16,12 @@ public class Mapper {
         return new ClientModel(id, updateClientModel.getName(), updateClientModel.getEmail(),
                 updateClientModel.getCnpj(), updateClientModel.getPhone());
     }
+
+    public static ClientModel setValuesToClientModel(ClientModel clientModel, ClientModel newClientModel) {
+        clientModel.setName(newClientModel.getName());
+        clientModel.setEmail(newClientModel.getEmail());
+        clientModel.setCnpj(newClientModel.getCnpj());
+        clientModel.setPhone(newClientModel.getPhone());
+        return clientModel;
+    }
 }
