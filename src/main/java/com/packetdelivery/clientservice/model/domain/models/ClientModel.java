@@ -20,7 +20,7 @@ import jakarta.persistence.Column;
 @NoArgsConstructor
 @Entity
 @Table(name = "clients")
-public class ClientModel {
+public class ClientModel implements IEmail, ICnpj {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "client_id")

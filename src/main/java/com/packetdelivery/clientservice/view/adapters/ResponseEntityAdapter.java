@@ -22,6 +22,8 @@ public class ResponseEntityAdapter {
             return new ResponseEntity(notFound.getMessage(), HttpStatus.NOT_FOUND);
         case 201:
             return new ResponseEntity(response.getBody(), HttpStatus.CREATED);
+        case 204:
+            return new ResponseEntity(response.getBody(), HttpStatus.NO_CONTENT);
         default:
             return new ResponseEntity(response.getBody(), HttpStatus.OK);
         }

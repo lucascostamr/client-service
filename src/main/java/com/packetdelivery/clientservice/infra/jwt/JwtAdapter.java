@@ -25,13 +25,13 @@ public class JwtAdapter implements IEncoder {
     }
 
     @Override
-    public String decode(String token) {
+    public String decode(String token) throws InvalidParamException {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
             JWTVerifier verifier = JWT.require(algorithm).build();
             return verifier.verify(token).getSubject();
         } catch (JWTVerificationException e) {
-            throw new RuntimeException("Invalid JWT token");
+            throw new InvalidParamException("Invalid token");
         }
     }
 }

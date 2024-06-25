@@ -10,17 +10,17 @@ services:
     depends_on:
       - postgres
     environment:
-      - POSTGRES_URL=jdbc:postgresql://postgres:5432/client_service
+      - POSTGRES_URL=jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+    env_file:
+      - ./.env
     ports:
-      - 3000:3000
-      - 5000:5000
+      - ${CLIENT_SERVICE_PORT}:${CLIENT_SERVICE_PORT}
+      - ${DEBUG_PORT}:${DEBUG_PORT}
 
   postgres:
     image: postgres:12.19-alpine3.19
-    environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=root
-      - POSTGRES_DB=client_service
+    env_file:
+      - ./.env
     volumes:
       - ./src/main/resources/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
 
@@ -28,4 +28,4 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+      - ${ADMINER_PORT}:${ADMINER_PORT}

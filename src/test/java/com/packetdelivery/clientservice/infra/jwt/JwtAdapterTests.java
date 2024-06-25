@@ -2,8 +2,9 @@ package com.packetdelivery.clientservice;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import static org.mockito.Mockito.when;
 
@@ -27,7 +28,7 @@ public class JwtAdapterTests {
     }
 
     @Test
-    void should_decode_token_on_success() {
+    void should_decode_token_on_success() throws InvalidParamException {
         String token = sut.encode("any_value");
         String value = sut.decode(token);
         assertEquals("any_value", value);
@@ -35,10 +36,7 @@ public class JwtAdapterTests {
 
     @Test
     void should_throw_if_invalid_token_provided() {
-        try {
-            String value = sut.decode("invalid_token");
-        } catch (Exception e) {
-            assertEquals("Invalid JWT token", e.getMessage());
-        }
+        InvalidParamException exception = assertThrows(InvalidParamException.class, () -> sut.decode("invalid_token"));
+        assertEquals("Invalid Param: Invalid token", exception.getMessage());
     }
 }

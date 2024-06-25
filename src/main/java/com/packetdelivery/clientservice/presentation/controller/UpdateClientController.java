@@ -20,9 +20,11 @@ public class UpdateClientController implements IController {
                 return HttpHelper.badRequest(new InvalidParamException(validationError));
             }
             updateClientRepository.update(client);
-            return HttpHelper.ok("");
+            return HttpHelper.noContent();
         } catch (NotFoundException e) {
             return HttpHelper.notFound(e);
+        } catch (InvalidParamException e) {
+            return HttpHelper.badRequest(e);
         } catch (Exception e) {
             return HttpHelper.serverError(e);
         }

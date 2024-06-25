@@ -1,19 +1,24 @@
 package com.packetdelivery.clientservice;
 
 import org.springframework.stereotype.Repository;
+
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Repository
-public class DbClientRepository implements IAddClient, IUpdateClient {
+public class DbClientRepository implements IAddClient, IUpdateClient, IRemoveClient {
     private IAddClientRepository addClientRepository;
     private IUpdateClientRepository updateClientRepository;
+    private IRemoveClientRepository removeClientRepository;
     private IEncoder encoder;
 
     @Autowired
     public DbClientRepository(IAddClientRepository addClientRepository, IUpdateClientRepository updateClientRepository,
-            IEncoder encoder) {
+            IEncoder encoder, IRemoveClientRepository removeClientRepository) {
         this.addClientRepository = addClientRepository;
         this.updateClientRepository = updateClientRepository;
+        this.removeClientRepository = removeClientRepository;
         this.encoder = encoder;
     }
 
@@ -30,5 +35,12 @@ public class DbClientRepository implements IAddClient, IUpdateClient {
         client.setToken(clientDecodedId);
         ClientModel clientModel = Mapper.updateClientModelToClientModel(client);
         updateClientRepository.update(clientModel);
+    }
+
+    @Override
+    public void remove(String token) throws Exception {
+        String clientDecodedId = encoder.decode(token);
+        UUID clientId = UUID.fromString(clientDecodedId);
+        removeClientRepository.remove(clientId);
     }
 }
